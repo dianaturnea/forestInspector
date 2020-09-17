@@ -7,12 +7,17 @@ import {
   Image,
   Dimensions,
   ScrollView,
+  Button,
+  Switch,
 } from "react-native";
 
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const { width } = Dimensions.get("screen");
 export default function App() {
+  const onPressLearnMore = () => {
+    console.log("Button");
+  };
   return (
     <SafeAreaView style={styles.container}>
       <View style={[styles.headerContainer, styles.containerProps]}>
@@ -22,6 +27,17 @@ export default function App() {
       </View>
       <View style={[styles.mainContainer, styles.containerProps]}>
         <ScrollView style={{ width }}>
+          <Switch
+            trackColor={{ false: "#767577", true: "#81b0ff" }}
+            ios_backgroundColor="#3e3e3e"
+          />
+          <Button
+            onPress={onPressLearnMore}
+            title="Learn More"
+            color="#841584"
+            accessibilityLabel="Learn more about this purple button"
+          />
+
           <Image
             style={{ width: 200, height: 200, margin: 20 }}
             source={{
