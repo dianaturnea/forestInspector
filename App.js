@@ -9,6 +9,7 @@ import {
   ScrollView,
   Button,
   Switch,
+  FlatList,
 } from "react-native";
 
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -18,6 +19,32 @@ export default function App() {
   const onPressLearnMore = () => {
     console.log("Button");
   };
+  const items = [
+    {
+      id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
+      title: "First Item",
+    },
+    {
+      id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
+      title: "Second Item",
+    },
+    {
+      id: "58694a0f-3da1-471f-bd96-145571e29d72",
+      title: "Third Item",
+    },
+  ];
+
+  const renderItem = ({ item }) => (
+    <View
+      style={[
+        styles.item,
+        { margin: 15, height: 30, backgroundColor: "#bdc3c7" },
+      ]}
+    >
+      <Text style={styles.title}>{item.title}</Text>
+    </View>
+  );
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={[styles.headerContainer, styles.containerProps]}>
@@ -26,7 +53,7 @@ export default function App() {
         </Text>
       </View>
       <View style={[styles.mainContainer, styles.containerProps]}>
-        <ScrollView style={{ width }}>
+        {/* <ScrollView style={{ width }}>
           <Switch
             trackColor={{ false: "#767577", true: "#81b0ff" }}
             ios_backgroundColor="#3e3e3e"
@@ -84,7 +111,15 @@ export default function App() {
             }}
             placeholder={"Car input"}
           />
-        </ScrollView>
+        </ScrollView> */}
+        <FlatList
+          data={items}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id}
+          ListHeaderComponent={() => <Text>Header List</Text>}
+          ListHeaderComponentStyle={{ backgroundColor: "#95a5a6" }}
+          style={{ width }}
+        />
       </View>
       <View style={[styles.footerContainer, styles.containerProps]}>
         <Text>Programmers Week 2020</Text>
