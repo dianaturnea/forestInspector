@@ -71,7 +71,7 @@ export default function App() {
         </ScrollView>
       </View>
       <View style={[styles.footerContainer, styles.containerProps]}>
-        <Text>Progremmers Week 2020</Text>
+        <Text>Programmers Week 2020</Text>
       </View>
     </SafeAreaView>
   );
