@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import {
   View,
   Text,
@@ -13,8 +13,39 @@ import items from "../config/items";
 const { width } = Dimensions.get("screen");
 
 export default function CarList({ route }) {
-  const [carList, setCarList] = useState(items);
+  const [carList, setCarList] = useState([]);
   const { titleHeaderList } = route.params;
+
+  const handleFetchCarList = useCallback(async () => {
+    let options = {
+      method: "POST",
+      headers: new Headers({
+        "Content-Type": "application/json",
+      }),
+      body: JSON.stringify({
+        date0: "Fri, 19 Sep 2020 14:00:00 GMT",
+        date1: "Fri, 19 Sep 2020 16:00:00 GMT",
+        nrmasina: "",
+        transportLocRecoltare: false,
+        transportDepozit: false,
+        transportFrontiera: false,
+        transportTransbordare: false,
+        transportConfiscare: false,
+        transportAlteSituatii: true,
+      }),
+    };
+    const result = await fetch(
+      "http://inspectorulpadurii.ro/SumalSatelit/Ajax/HartaAvizeWoodTracking",
+      options
+    );
+    const resultList = await result.json();
+
+    setCarList(resultList);
+  });
+
+  useEffect(() => {
+    handleFetchCarList();
+  }, []);
 
   const renderItem = ({ item }) => (
     <View style={[styles.item]}>
@@ -25,22 +56,18 @@ export default function CarList({ route }) {
         style={styles.imageStyle}
       />
       <View>
-        <Text style={styles.title}>{item.title}</Text>
-        <Text>{item.details}</Text>
+        <Text style={styles.title}>{item.NRM}</Text>
+        <Text>{item.ID}</Text>
       </View>
     </View>
   );
 
   return (
     <View>
-      <Button
-        onPress={useCallback(() => setCarList([]), carList)}
-        title="Remove cars"
-      />
       <FlatList
-        data={items}
+        data={carList}
         renderItem={renderItem}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => toString(item.ID)}
         ListHeaderComponent={() => (
           <Text style={styles.headerTitle}>{titleHeaderList}</Text>
         )}
