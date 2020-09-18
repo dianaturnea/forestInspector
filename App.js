@@ -17,7 +17,7 @@ const { width } = Dimensions.get("screen");
 
 function Home({ navigation }) {
   const onPressToGo = () => {
-    navigation.navigate("CarList");
+    navigation.navigate("CarList", { titleHeaderList: "Car Lists" });
   };
 
   return (
@@ -56,7 +56,11 @@ function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen name="CarList" component={CarList} />
+        <Stack.Screen
+          name="CarList"
+          component={CarList}
+          options={({ route }) => ({ title: "CarList" })}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

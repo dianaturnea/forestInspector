@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useCallback } from "react";
 import {
   View,
   Text,
@@ -6,12 +6,16 @@ import {
   Dimensions,
   StyleSheet,
   Image,
+  Button,
 } from "react-native";
 import items from "../config/items";
 
 const { width } = Dimensions.get("screen");
 
-export default function CarList() {
+export default function CarList({ route }) {
+  const [carList, setCarList] = useState(items);
+  const { titleHeaderList } = route.params;
+
   const renderItem = ({ item }) => (
     <View style={[styles.item]}>
       <Image
@@ -29,12 +33,16 @@ export default function CarList() {
 
   return (
     <View>
+      <Button
+        onPress={useCallback(() => setCarList([]), carList)}
+        title="Remove cars"
+      />
       <FlatList
         data={items}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
         ListHeaderComponent={() => (
-          <Text style={styles.headerTitle}>Header List</Text>
+          <Text style={styles.headerTitle}>{titleHeaderList}</Text>
         )}
         ListHeaderComponentStyle={styles.headerStyle}
         style={styles.flatListStyle}
