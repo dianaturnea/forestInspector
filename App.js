@@ -3,130 +3,70 @@ import {
   StyleSheet,
   Text,
   View,
-  TextInput,
   Image,
   Dimensions,
-  ScrollView,
   Button,
-  Switch,
-  FlatList,
 } from "react-native";
 
-import { SafeAreaView } from "react-native-safe-area-context";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+
+import CarList from "./src/screens/CarList";
 
 const { width } = Dimensions.get("screen");
-export default function App() {
-  const onPressLearnMore = () => {
-    console.log("Button");
-  };
-  const items = [
-    {
-      id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
-      title: "First Item",
-    },
-    {
-      id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
-      title: "Second Item",
-    },
-    {
-      id: "58694a0f-3da1-471f-bd96-145571e29d72",
-      title: "Third Item",
-    },
-  ];
 
-  const renderItem = ({ item }) => (
-    <View
-      style={[
-        styles.item,
-        { margin: 15, height: 30, backgroundColor: "#bdc3c7" },
-      ]}
-    >
-      <Text style={styles.title}>{item.title}</Text>
-    </View>
-  );
+function Home({ navigation }) {
+  const onPressToGo = () => {
+    navigation.navigate("CarList", { titleHeaderList: "Car Lists" });
+  };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <View style={[styles.headerContainer, styles.containerProps]}>
         <Text style={{ fontSize: 24, fontWeight: "bold" }}>
           Forest Inspector
         </Text>
       </View>
       <View style={[styles.mainContainer, styles.containerProps]}>
-        {/* <ScrollView style={{ width }}>
-          <Switch
-            trackColor={{ false: "#767577", true: "#81b0ff" }}
-            ios_backgroundColor="#3e3e3e"
-          />
-          <Button
-            onPress={onPressLearnMore}
-            title="Learn More"
-            color="#841584"
-            accessibilityLabel="Learn more about this purple button"
-          />
-
-          <Image
-            style={{ width: 200, height: 200, margin: 20 }}
-            source={{
-              uri:
-                "https://i.pinimg.com/originals/31/bc/b4/31bcb437c29376a67742b4d5f502b721.png",
-            }}
-          />
-          <Image
-            style={{ width: 200, height: 200, margin: 20 }}
-            source={{
-              uri:
-                "https://i.pinimg.com/originals/31/bc/b4/31bcb437c29376a67742b4d5f502b721.png",
-            }}
-          />
-          <Image
-            style={{ width: 200, height: 200, margin: 20 }}
-            source={{
-              uri:
-                "https://i.pinimg.com/originals/31/bc/b4/31bcb437c29376a67742b4d5f502b721.png",
-            }}
-          />
-          <Image
-            style={{ width: 200, height: 200, margin: 20 }}
-            source={{
-              uri:
-                "https://i.pinimg.com/originals/31/bc/b4/31bcb437c29376a67742b4d5f502b721.png",
-            }}
-          />
-          <Image
-            style={{ width: 200, height: 200, margin: 20 }}
-            source={{
-              uri:
-                "https://i.pinimg.com/originals/31/bc/b4/31bcb437c29376a67742b4d5f502b721.png",
-            }}
-          />
-          <TextInput
-            style={{
-              width: 150,
-              paddingHorizontal: 15,
-              paddingVertical: 15,
-              margin: 15,
-              borderWidth: 1,
-              borderColor: "green",
-            }}
-            placeholder={"Car input"}
-          />
-        </ScrollView> */}
-        <FlatList
-          data={items}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.id}
-          ListHeaderComponent={() => <Text>Header List</Text>}
-          ListHeaderComponentStyle={{ backgroundColor: "#95a5a6" }}
-          style={{ width }}
+        <Image
+          style={{ width: 200, height: 200, margin: 20 }}
+          source={{
+            uri:
+              "https://i.pinimg.com/originals/31/bc/b4/31bcb437c29376a67742b4d5f502b721.png",
+          }}
+        />
+        <Button
+          onPress={onPressToGo}
+          title="CarList Screen"
+          color="#841584"
+          accessibilityLabel="Learn more about this purple button"
         />
       </View>
       <View style={[styles.footerContainer, styles.containerProps]}>
         <Text>Programmers Week 2020</Text>
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
+
+const Stack = createStackNavigator();
+
+function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen
+          name="CarList"
+          component={CarList}
+          options={({ route }) => ({ title: "CarList" })}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
+
+export default App;
 
 const styles = StyleSheet.create({
   container: {
